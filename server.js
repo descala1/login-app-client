@@ -1,4 +1,5 @@
 const { ApolloServer, gql } = require('apollo-server');
+const pgsql = require('./repository/pgsqlRepository.js');
 
 const port = process.env.PORT ? process.env.PORT : 5000;
 
@@ -15,8 +16,7 @@ const typeDefs = gql`
 const resolvers = {
     Query: {
         login: (_, args) => {
-            if(args.un == 'descalante' && args.pw == 'password123') return 'SUCCESS!';
-            else return 'FAIL';
+            return fetchPassword(args.un);         
         }       
     },
 
@@ -27,6 +27,12 @@ const resolvers = {
         }     
     }
 };
+
+let fetchPassword = async (un) => {
+    let res = await pgsql.login(un);        
+    if(res.un == 'descalante' && args.pw == 'password123') return 'SUCCESS!';
+    else return 'FAIL';    
+}
 
 const server = new ApolloServer({typeDefs, resolvers});
 
