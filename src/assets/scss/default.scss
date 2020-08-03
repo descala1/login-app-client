@@ -1,0 +1,20 @@
+body {
+    div#LoginFields {
+        padding-top: 75px;
+    }
+
+    div#RegisterBackground {      
+        border-radius: 7px;
+        background: #d1ddfa;
+        padding: 20px;          
+    }
+    
+    input[type=text]#register, select {
+        padding: 10px 10px;
+        margin: 12px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        box-sizing: border-box;
+    }
+}
