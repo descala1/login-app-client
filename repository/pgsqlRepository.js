@@ -9,7 +9,8 @@ const client = new Client({
 });
 
 let login = async(un) => {
-    await client.connect();
+    if(client._connected == false)
+        await client.connect();
 
     let query = `
             SELECT password
@@ -19,8 +20,9 @@ let login = async(un) => {
     
     const res = await client.query(query, [un]);
     console.log(res);
-    await client.end();
-    return res.rows[0].password;
+    //await client.end();
+    if(res.rows.length > 0) return res.rows[0].password;
+    else return null;
 }
 
 let register = async(name, un, email, pw) => {

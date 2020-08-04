@@ -16,7 +16,7 @@ const typeDefs = gql`
 const resolvers = {
     Query: {
         login: (_, args) => {
-            return fetchPassword(args.un);         
+            return tryPassword(args.un, args.pw);         
         }       
     },
 
@@ -28,10 +28,10 @@ const resolvers = {
     }
 };
 
-let fetchPassword = async (un) => {
+let tryPassword = async (un, pw) => {
     let res = await pgsql.login(un);        
-    if(res.un == 'descalante' && args.pw == 'password123') return 'SUCCESS!';
-    else return 'FAIL';    
+    if(res && res == pw) return 'SUCCESS';
+    else return 'FAIL';
 }
 
 const server = new ApolloServer({typeDefs, resolvers});

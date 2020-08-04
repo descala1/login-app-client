@@ -1,23 +1,28 @@
 import React, { Component } from 'react';
+import { Redirect } from "react-router-dom";
 
 let GRAPHQL_URL = 'http://localhost:5000';
 
 class Login extends Component {
     constructor() {
         super();
-        this.state = {username: '', password: ''};
+        this.state = {username: '', password: '', redirect: '/'};
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleSubmit = (e) => {
+    handleSubmit = async (e) => {
         e.preventDefault();
         var self = this;
 
         console.log(self.state.username);
         console.log(self.state.password);
 
-        let res = this.sendLoginData(self.state.username, self.state.password);
-        console.log(res);           
+        let res = await this.sendLoginData(self.state.username, self.state.password);
+        if(res === "SUCCESS") {
+            this.setState({ redirect: "/home" });            
+        }else {
+            console.log('Failed login attempt.');
+        }
     }    
 
     sendLoginData = async (un, pw) => {
@@ -37,7 +42,7 @@ class Login extends Component {
             })
         });
         let r = await response.json();
-        console.log(r)
+        return r.data.login;
     } 
 
     unChange = (e) => {
@@ -48,8 +53,21 @@ class Login extends Component {
         this.setState({ password: e.target.value });
     }
 
+    // renderLogin = () => {
+    //     if(this.state.entry){            
+    //         return <div className="row"><h2>You Are Logged In</h2><a href="/">Logout</a></div>
+    //     }else {
+    //         console.log("Login Attempt Failed.");
+    //     } 
+    // }
+
+    //{ this.renderLogin() }
+
     render() {
-        return (
+        if(this.state.redirect === '/home') {
+            return <Redirect to={this.state.redirect} />
+        }
+        return (            
             <div className="container" id="LoginFields">
                 <div className="row">
                     <div className="col-md-12">
@@ -83,7 +101,7 @@ class Login extends Component {
                     <div className="col-md-2">
                         <a className="nav-link" href="/register">Register<span className="sr-only">(current)</span></a>
                     </div>
-                </div>                    
+                </div>                   
             </div>
         );
     }
