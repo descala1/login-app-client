@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Redirect } from "react-router-dom";
 
+import { ToastContainer, toast } from 'react-toastify';
+
 let GRAPHQL_URL = 'http://localhost:5000';
 
 class Login extends Component {
@@ -21,9 +23,13 @@ class Login extends Component {
         if(res === "SUCCESS") {
             this.setState({ redirect: "/home" });            
         }else {
-            console.log('Failed login attempt.');
+            this.error();
         }
-    }    
+    }
+
+    error = () => {
+        toast.error("Login attempt failed.");
+    }
 
     sendLoginData = async (un, pw) => {
         let query = `query login($un: String!, $pw: String!) {
@@ -67,8 +73,9 @@ class Login extends Component {
         if(this.state.redirect === '/home') {
             return <Redirect to={this.state.redirect} />
         }
-        return (            
+        return (                  
             <div className="container" id="LoginFields">
+                <ToastContainer position="top-center" toastClassName="warning" />
                 <div className="row">
                     <div className="col-md-12">
                         <h4>LOGIN TO MY SITE</h4>
@@ -90,7 +97,7 @@ class Login extends Component {
                             <div className="input-group-prepend">
                                 <span className="input-group-text" id="inputGroup-sizing-default">Password</span>
                             </div>
-                            <input type="text" className="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" password={this.state.password} onChange={this.pwChange}></input>
+                            <input type="password" className="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" password={this.state.password} onChange={this.pwChange}></input>
                         </div>                        
                     </div>                                   
                 </div>

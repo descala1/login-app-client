@@ -1,8 +1,16 @@
 import React from 'react';
 
 const Home = () => {
-    return (          
-       <div className="row"><h2>You Are Logged In</h2><a href="/">Logout</a></div> 
+    return (   
+        <div className="container" style={{padding: "50px"}}>       
+        <div className="row">
+            <div className="text-center">
+                <h2>You Are Logged In <i className='fa fa-check-circle-o'></i></h2>
+                <p style={{padding: "25px"}}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <a href="/" className="btn btn-primary btn-sm">Logout</a>  
+            </div>
+        </div>     
+        </div> 
     );
 }
 

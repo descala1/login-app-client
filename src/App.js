@@ -4,6 +4,7 @@ import { Router } from 'react-router-dom';
 //Styles
 import './assets/css/default.css';
 import './assets/css/bootstrap.min.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 //History
 import history from './services/history';
