@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import { ToastContainer, toast } from 'react-toastify';
+
 let GRAPHQL_URL = 'http://localhost:5000';
 
 class Register extends Component {
@@ -9,7 +11,7 @@ class Register extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleSubmit = (e) => {
+    handleSubmit = async (e) => {
         e.preventDefault();
         var self = this;
 
@@ -18,20 +20,20 @@ class Register extends Component {
             return;
         }
 
-        console.log(self.state.name);
-        console.log(self.state.username);
-        console.log(self.state.password1);
-        console.log(self.state.email);
+        let res = await this.sendRegistrationData(self.state.name, self.state.username, self.state.email, self.state.password1);
+        if(res.data.register === "SUCCESS") {
+            this.success();          
+        }else {
+            this.error();
+        }
+    }
 
-        this.sendRegistrationData(
-            self.state.name,
-            self.state.username, 
-            self.state.email,
-            self.state.password1
-        ).then(res => {
-            return res;
-        });
-                
+    error = () => {
+        toast.error("Attempt to register failed.");
+    }
+
+    success = () => {
+        toast.success("Registration succeeded.");
     }
 
     changeHandler = (e)=> {
@@ -64,6 +66,7 @@ class Register extends Component {
     render() {
         return (
             <div className="container" id="LoginFields">
+                <ToastContainer />
                 <div className="row">
                     <div className="col-md-12">
                         <h4>REGISTER FOR MY SITE</h4>

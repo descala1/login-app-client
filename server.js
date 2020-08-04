@@ -22,8 +22,7 @@ const resolvers = {
 
     Mutation: {
         register: (_, args) => {
-            console.log(args);
-            return 'SUCCESS';
+            return registerUser(args.name, args.un, args.email, args.pw);
         }     
     }
 };
@@ -31,6 +30,13 @@ const resolvers = {
 let tryPassword = async (un, pw) => {
     let res = await pgsql.login(un);        
     if(res && res == pw) return 'SUCCESS';
+    else return 'FAIL';
+}
+
+let registerUser = async (name, un, email, pw) => {
+    let res = await pgsql.register(name, un, email, pw);
+    console.log(res);
+    if(res) return 'SUCCESS';
     else return 'FAIL';
 }
 

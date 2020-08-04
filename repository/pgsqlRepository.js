@@ -26,7 +26,8 @@ let login = async(un) => {
 }
 
 let register = async(name, un, email, pw) => {
-    await client.connect();
+    if(client._connected == false)
+        await client.connect();
 
     let query = `
            INSERT INTO Users(name, username, email, password)
@@ -34,9 +35,9 @@ let register = async(name, un, email, pw) => {
         `;
 
     const res = await client.query(query, [name, un, email, pw]);
-    console.log(res);
-    await client.end();
-    return res.rows[0];
+    console.log(res.rowCount);
+    //await client.end();
+    return res.rowCount;
 }
 
 module.exports = {
