@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom";
 
 import { ToastContainer, toast } from 'react-toastify';
 
-let GRAPHQL_URL = 'http://localhost:5000';
+let GRAPHQL_URL = process.env.url ? process.env.url : 'http://localhost:5000';
 
 class Login extends Component {
     constructor() {

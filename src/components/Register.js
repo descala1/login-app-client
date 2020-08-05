@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { ToastContainer, toast } from 'react-toastify';
 
-let GRAPHQL_URL = 'http://localhost:5000';
+let GRAPHQL_URL = process.env.url ? process.env.url : 'http://localhost:5000';
 
 class Register extends Component {
     constructor() {
