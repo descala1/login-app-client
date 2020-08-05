@@ -1,11 +1,16 @@
-const { Client } = require('pg')
+NODE_TLS_REJECT_UNAUTHORIZED=0
+
+const { Client } = require('pg');
+const path = require('path');
+const db = require(path.resolve('config.json')).pgsql;
 
 const client = new Client({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'LoginData',
-  password: 'password123',
-  port: 5432,
+  user: db.user,
+  host: db.host,
+  database: db.database,
+  password: db.password,
+  port: db.port,
+  ssl: { rejectUnauthorized: false }
 });
 
 let login = async(un) => {
@@ -26,8 +31,13 @@ let login = async(un) => {
 }
 
 let register = async(name, un, email, pw) => {
-    if(client._connected == false)
-        await client.connect();
+    if(client._connected == false) {
+        try {
+            await client.connect();
+        }catch(err) {
+            console.log(err);
+        }
+    }
 
     let query = `
            INSERT INTO Users(name, username, email, password)
